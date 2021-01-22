@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supersonics express auth</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <% if (!currentUser) { %>
+                    <li><a href="/auth/signup">Sign up</a></li>
+                    <li><a href="/auth/login">login</a></li>
+                <% } else { %>
+                    <li><a href="/auth/logout">log out</a></li>
+                    <li><a href="/profile">profile</a></li>
+                <% } %>
+            </ul>
+        </nav>
+    </header>
+    <%- include('partials/alerts') %>
+    <%- body %>
+</body>
+</html>
