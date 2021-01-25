@@ -1,4 +1,5 @@
 require('dotenv').config() // configure environment variable
+const axios = require('axios')
 let express = require('express')
 let ejsLayouts = require('express-ejs-layouts')
 let app = express()
@@ -45,6 +46,16 @@ app.use((req, res, next)=>{
 app.use('/auth', require('./controllers/auth'))
 
 app.get('/', (req, res) => {
+    axios.get(`https://api.fbi.gov/wanted/v1/list`)
+    .then(function (response) {
+        // handle success
+        // response.data.items[0]
+        console.log(response.data.items[1]);
+    })
+    .catch(function (error) {
+        // handle error
+        console.log(error);
+    })
     res.render('main/home')
 })
 
