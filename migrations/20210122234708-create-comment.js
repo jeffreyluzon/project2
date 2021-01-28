@@ -12,7 +12,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       bountyId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       comment: {
         type: Sequelize.TEXT

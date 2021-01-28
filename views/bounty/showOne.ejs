@@ -1,0 +1,37 @@
+
+
+<h1><%= bounty.title %></h1>
+<h1><img src="<%= bounty.images[0].original %>"></h1>
+<h1><%= bounty.location %></h1>
+<h1><%= bounty.description %></h1>
+<h1><%= bounty.weight_min %></h1>
+<h1><%= bounty.reward_text %></h1>
+
+
+
+
+    <form action="/bounty/<%= bounty.uid %>" method="POST">
+        <input type="hidden" name="image" value="<%= bounty.images[0].thumb %>">
+        <input type="hidden" name="bounty" value="<%= bounty.title %>">
+        <input type="hidden" name="location" value="<%= bounty.location %>">
+        <input type="hidden" name="desc" value="<%= bounty.description %>">
+        <input type="hidden" name="weight" value="<%= bounty.weight_min %>">
+        <input type="hidden" name="reward" value="<%= bounty.reward_text %>">
+
+        <input type="submit" value="save this bounty">
+    </form>
+    
+    <h3>
+        <% comments.forEach(comment =>{ %>
+        <li>
+            <%=comment.comment%>
+            <input type="submit" value="delete">
+            <input type="submit" value="edit" name="" id="">
+        </li>
+        <% }) %>
+    </ul>
+    <form action="/bounty/addcomment" method="POST">
+        <input type="hidden" name="apiId" value="<%= bounty.uid %>">
+        <input type="text" name="comment">
+        <input type="submit">
+    </form>

@@ -7,9 +7,8 @@ const session = require('express-session')
 const passport = require('./config/ppConfig.js')
 const flash = require('connect-flash')
 const isLoggedIn = require('./middleware/isLoggedIn')
-
-
-
+const bounty = require('./models/bounty.js')
+const methodOverride = require('method-override')
 
 // let db = require('./models')
 
@@ -17,6 +16,7 @@ const isLoggedIn = require('./middleware/isLoggedIn')
 // enable to have a layout.ejs
 app.set('view engine', 'ejs')
 
+app.use(methodOverride('_method'))
 // enable to grab the form content
 app.use(express.urlencoded({ extended: false }))
 // enable layout
@@ -45,17 +45,9 @@ app.use((req, res, next)=>{
 })
 app.use('/auth', require('./controllers/auth'))
 
+app.use('/bounty', require('./controllers/bounty'))
+
 app.get('/', (req, res) => {
-    axios.get(`https://api.fbi.gov/wanted/v1/list`)
-    .then(function (response) {
-        // handle success
-        // response.data.items[0]
-        console.log(response.data.items[1]);
-    })
-    .catch(function (error) {
-        // handle error
-        console.log(error);
-    })
     res.render('main/home')
 })
 

@@ -1,0 +1,12 @@
+<h1>bounty board</h1>
+
+
+
+<ul>
+    <% bounties.forEach(bounty => { %>
+        <li>
+            <img src="<%= bounty.images[0].thumb %>">
+            <a href="/bounty/<%= bounty.uid %>"><%= bounty.title %></a>
+        </li>
+    <% }) %>
+</ul>
