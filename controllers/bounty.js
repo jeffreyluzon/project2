@@ -3,8 +3,9 @@ let express = require('express')
 let db = require('../models')
 let router = express.Router()
 const axios = require('axios')
-const { post } = require('./auth')
+const { post, route } = require('./auth')
 const comment = require('../models/comment')
+const isLoggedIn = require('../middleware/isLoggedIn')
 
 // show all the bounties pages
 router.get('/', (req, res) =>{
@@ -31,6 +32,7 @@ router.get('/:id', (req,res) =>{
     }).then(comments => {
         axios.get(`https://api.fbi.gov/@wanted-person/${req.params.id}`)
         .then(function (response) {
+            console.log(response)
             // handle success
             // response.data.items[0]
             // console.log(response.data.items[0]);
@@ -66,13 +68,13 @@ router.post('/addcomment', (req, res) =>{
 
 router.put('/:id', (req, res) =>{
     db.comment.update({
+        comment: req.body.comment
+    },{
         where: {
-            _id: req.params.id
+            id: req.params.id
         }
-    },req.body,{
-        new: true
     }).then(comment =>{
-        res.send(comment)
+        res.redirect('/')
     }).catch(error =>{
         console.log(error)
     })
@@ -82,17 +84,41 @@ router.delete('/:id', (req,res)=>{
     console.log(req.body)
     db.comment.destroy({
         where: {
-            id: req.comment.id
+            id: req.params.id
         }
     }).then(comment =>{
-        console.log('comment deleted')
-    }).catch(error =>{
+        console.log(comment)
+        // process.exit()
+        res.redirect('/')
+    })
+    .catch(error =>{
         console.log(error)
     })
 })
 
+// routes for saved bounties 
+router.get('/savedbounties', (req, res) =>{
+    res.render('bounty/savedBounties')
+})
 
-
+router.post('/bounty/:id', isLoggedIn, (req, res)=>{
+    console.log('jeffrey', req.body.uId)
+    db.bounty.findOrCreate({
+        where: {
+            uId: req.body.uId
+        }
+    }).then(([foundBounty, wasCreated]) => {
+        db.user.findOne({
+            where: {
+                id: req.user.id
+            }
+        })
+    }).then(user =>{
+        user.addBounty(foundBounty).then(relationshipinfo =>{
+            res.redirect('bounty/savedBounties')
+        })
+    }).catch(error =>{res.send(error)})
+})
 
 
 

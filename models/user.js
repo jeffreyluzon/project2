@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       models.user.hasMany(models.comment)
       // models.user.hasMany(models.bounty, {through: "user_bounty"})
-      models.user.belongsToMany(models.bounty, {through: "user_bounty"})
+      models.user.belongsToMany(models.bounty, {through: "user_bounties"})
     }
   };
   user.init({

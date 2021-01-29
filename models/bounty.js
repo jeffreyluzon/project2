@@ -12,17 +12,12 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       // models.bounty.belongsTo(models.user);
-      models.bounty.belongsToMany(models.user, {through: "user_bounty"})
+      models.bounty.belongsToMany(models.user, {through: "user_bounties"})
     }
   };
   bounty.init({
-    picture: DataTypes.STRING,
-    name: DataTypes.STRING,
-    desc: DataTypes.STRING,
-    location: DataTypes.STRING,
-    weight: DataTypes.STRING,
-    height: DataTypes.STRING,
-    reward: DataTypes.STRING
+    uId: DataTypes.STRING
+
   }, {
     sequelize,
     modelName: 'bounty',
